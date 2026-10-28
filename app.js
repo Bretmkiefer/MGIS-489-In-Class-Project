@@ -15,13 +15,13 @@ const STORE_KEY = 'career-launch-dashboard:v1';
 const STATUSES = ['Saved', 'Applied', 'Interviewing', 'Offer', 'Rejected'];
 const STATUS_COLORS = {
   Saved: 'var(--muted)', Applied: 'var(--info)', Interviewing: 'var(--warn)',
-  Offer: 'var(--accent)', Rejected: 'var(--danger)',
+  Offer: 'var(--good)', Rejected: 'var(--danger)',
 };
 const SPEND_CATEGORIES = ['Meals', 'Groceries', 'Transport', 'School', 'Entertainment', 'Rent & bills', 'Personal', 'Other'];
 const MEAL_CATEGORIES = ['Meals', 'Groceries'];
 const CATEGORY_COLORS = {
-  Meals: '#3ddc97', Groceries: '#2aa876', Transport: '#6cb6ff', School: '#b392f0',
-  Entertainment: '#f2c94c', 'Rent & bills': '#f2726f', Personal: '#ff9f6b', Other: '#8fa89a',
+  Meals: '#ff5a36', Groceries: '#f5a524', Transport: '#1f78d1', School: '#7b5cfa',
+  Entertainment: '#e8499b', 'Rent & bills': '#0f766e', Personal: '#0f8a4b', Other: '#8a8eb0',
 };
 
 const SAMPLE_OPPORTUNITIES = [
