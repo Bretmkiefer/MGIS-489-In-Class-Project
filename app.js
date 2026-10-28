@@ -560,6 +560,7 @@ function renderOverview() {
       <p class="eyebrow">${new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })}</p>
       <h1>${greeting}</h1></div>
       ${isEmpty ? '<button class="btn" data-action="sample">Load sample data</button>' : ''}</div>
+    <p class="overview-intro">Your next chapter starts with what you do today.</p>
     <div class="stack">
       <div class="hero">${taskHTML}${budgetHTML}</div>
       <div class="stats">
