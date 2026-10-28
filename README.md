@@ -45,6 +45,6 @@ node serve.js
 ## Files
 
 - `index.html`: page shell, navigation and dialogs
-- `styles.css`: light dashboard, forest-green sidebar and responsive layout
+- `styles.css`: cool gray dashboard, navy navigation, cobalt accents and responsive layout
 - `app.js`: all app logic (state, matching, daily task, budget math, views)
 - `serve.js`: tiny static server for local development
