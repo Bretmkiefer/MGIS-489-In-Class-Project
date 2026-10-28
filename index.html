@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Figtree:wght@400..700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="auth-screen">
   <header class="topbar">
     <a class="brand" href="#overview"><span class="logo" aria-hidden="true">▲</span>Student Launchpad</a>
     <nav class="tabs" aria-label="Sections">
@@ -22,10 +22,12 @@
       <a href="#events">Events</a>
       <a href="#opportunities">Opportunities</a>
       <a href="#profile">Profile</a>
+      <a href="#connections">Connections</a>
     </nav>
+    <div class="account-nav" id="account-nav"></div>
   </header>
 
-  <main id="app" tabindex="-1"></main>
+  <main id="app" tabindex="-1"><p role="status">Loading your workspace…</p></main>
 
   <dialog id="form-dialog" aria-labelledby="form-title">
     <form id="entry-form" novalidate>
@@ -52,6 +54,8 @@
   <input type="file" id="import-file" accept="application/json,.json" hidden>
   <div id="toast" role="status" aria-live="polite"></div>
 
+  <script src="profile-fields.js"></script>
   <script src="app.js"></script>
+  <script src="integrations.js"></script>
 </body>
 </html>

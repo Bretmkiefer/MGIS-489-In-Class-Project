@@ -193,7 +193,7 @@ const safeUrl = url => /^https?:\/\//i.test(url || '') ? url : '';
 
 function defaultState() {
   return {
-    profile: { name: '', interests: [], roles: [] },
+    profile: { ...LaunchpadProfile.empty(), interests: [], roles: [] },
     applications: [],
     interviews: [],
     events: [],
@@ -223,10 +223,11 @@ let appFilter = 'All';
 
 function save() {
   try {
-    localStorage.setItem(STORE_KEY, JSON.stringify(state));
+    localStorage.setItem(window.launchpadStorageKey || STORE_KEY, JSON.stringify(state));
   } catch {
     toast('This browser blocked saving, so changes will be lost on reload.');
   }
+  window.launchpadSync?.();
 }
 
 /* ---------- Matching ---------- */
@@ -642,11 +643,13 @@ function oppCard(o) {
   const tracked = isTracked(o);
   const hits = new Set(o.match.interests.map(lower));
   const name = esc(`${o.title} at ${o.company}`);
+  const source = o.source || (SAMPLE_OPPORTUNITIES.some(s => s.title === o.title && s.company === o.company) ? 'Demo example' : 'Saved by you');
   return `<article class="panel opp">
     <div class="opp-top">
       <div><h3>${esc(o.title)}</h3><div class="sub">${esc(o.company)} · ${esc([o.type, o.location].filter(Boolean).join(' · '))}</div></div>
       <div class="score" style="--p:${o.match.score}" title="Match score"><span>${o.match.score}%</span></div>
     </div>
+    <p class="hint">${esc(source)}${source === 'Demo example' ? ' · fictional listing' : ''}</p>
     ${o.description ? `<p class="sub">${esc(o.description)}</p>` : ''}
     <p class="reasons">${matchReasons(o.match)}</p>
     ${o.tags?.length ? `<div class="tags">${o.tags.map(t => `<span class="tag${[...hits].some(h => lower(t).includes(h)) ? ' hit' : ''}">${esc(t)}</span>`).join('')}</div>` : ''}
@@ -658,10 +661,10 @@ function oppCard(o) {
   </article>`;
 }
 
-function renderOpportunities() {
+function renderOpportunities(embedded = false) {
   const ranked = rankedOpportunities();
   const hasProfile = state.profile.interests.length || state.profile.roles.length;
-  return `${pageHead('Opportunities', hasProfile
+  return `${embedded ? '<div class="panel-head"><h2>Saved opportunities</h2><button class="btn primary" data-action="add" data-coll="opportunities">Add opportunity</button></div>' : pageHead('Opportunities', hasProfile
       ? 'Ranked by how well each one matches your interests and target roles.'
       : 'Add interests and target roles on your <a href="#profile">profile</a> to rank these by fit.', 'opportunities')}
     ${ranked.length ? `<div class="cards">${ranked.map(oppCard).join('')}</div>`
@@ -692,9 +695,16 @@ function renderProfile() {
 
   return `${pageHead('Profile', 'What you are aiming for. This drives opportunity matching and your daily task.')}
     <div class="stack">
-      <section class="panel field">
-        <label for="profile-name">Your first name <span class="optional">(optional)</span></label>
-        <input id="profile-name" data-action="profile-name" value="${esc(p.name)}" autocomplete="given-name">
+      <section class="panel">
+        <h2>Personal and career details</h2>
+        <p class="muted">Keep your details ready for a future résumé builder. Optional fields can be left blank.</p>
+        <form id="profile-details-form" class="profile-details-form">
+          <div class="profile-fields">${LaunchpadProfile.fields.map(f => `<div class="field${f.type === 'textarea' ? ' full-width' : ''}"><label for="personal-${f.key}">${esc(f.label)}</label>${f.type === 'textarea'
+            ? `<textarea id="personal-${f.key}" name="${f.key}" maxlength="${f.max}">${esc(p[f.key])}</textarea>`
+            : `<input id="personal-${f.key}" name="${f.key}" type="${f.type || 'text'}" value="${esc(p[f.key])}" ${f.autocomplete ? `autocomplete="${f.autocomplete}"` : ''} ${f.max ? `maxlength="${f.max}"` : ''} ${f.key === 'dateOfBirth' ? `min="1900-01-01" max="${todayISO()}"` : ''} ${f.key === 'graduationYear' ? `min="1950" max="${new Date().getFullYear() + 15}" step="1"` : ''}>`}</div>`).join('')}</div>
+          <p class="hint">Date of birth is optional and is not needed for job-board connections. Profile links are saved references; they do not connect or authorize an account.</p>
+          <p id="profile-details-message" role="status"></p><button class="btn primary" type="submit">Save profile details</button>
+        </form>
       </section>
       <div class="grid-2">
         ${tagEditor('interests', 'Interests and skills', 'e.g. data analytics', interestSuggestions)}
@@ -702,7 +712,7 @@ function renderProfile() {
       </div>
       <section class="panel">
         <h2>Your data</h2>
-        <p class="muted" style="margin-top:4px">Everything is saved in this browser only. Export a backup to move it to another computer.</p>
+        <p class="muted" style="margin-top:4px">${window.launchpadStorageKey ? 'Your account dashboard saves to this local server. Check Connections for save status.' : 'Guest data is saved in this browser. Open Connections to create an account and save to this local server.'} Export a backup at any time.</p>
         <div class="data-actions">
           <button class="btn" data-action="export">Export backup</button>
           <button class="btn" data-action="import">Import backup</button>
@@ -829,6 +839,7 @@ function currentView() {
 }
 
 function render() {
+  if (window.launchpadRenderGate?.()) return;
   const view = currentView();
   $('#app').innerHTML = VIEWS[view]();
   document.querySelectorAll('.tabs a').forEach(a => {
@@ -1132,4 +1143,3 @@ $('#import-file').addEventListener('change', async e => {
 });
 
 window.addEventListener('hashchange', () => { render(); $('#app').focus({ preventScroll: true }); window.scrollTo(0, 0); });
-render();

@@ -410,3 +410,61 @@ tr.overdue td:first-child { color: var(--danger); font-weight: 650; }
 @media (prefers-reduced-motion: reduce) {
   #toast, .btn { transition: none; }
 }
+
+/* Connections and job discovery */
+.integration-form { display: grid; gap: 16px; max-width: 500px; margin-top: 20px; }
+.job-search-form { display: grid; grid-template-columns: 1.5fr 1fr 1fr auto; gap: 14px; align-items: end; margin: 22px 0; }
+.job-search-form label { font-size: 12px; }
+.connection-status { margin: 16px 0; color: var(--muted); overflow-wrap: anywhere; }
+.connection-list { margin: 20px 0; }
+.connection-list > div { padding: 12px 0; border-bottom: 1px solid var(--border); }
+.connection-list dt { font-weight: 650; }
+.connection-list dd { margin: 5px 0 0; color: var(--muted); font-size: 13px; }
+#account-message { min-height: 24px; }
+@media (max-width: 1000px) { .job-search-form { grid-template-columns: 1fr 1fr; } .topbar { flex-wrap: wrap; } }
+@media (max-width: 540px) { .job-search-form { grid-template-columns: 1fr; } }
+
+/* Account entry and signed-in navigation */
+.account-nav { margin-left: auto; display: flex; gap: 12px; align-items: center; }
+.account-email { max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #fff; font-size: 12px; }
+.account-nav .btn { color: white; border-color: #ffffff50; font-size: 12px; min-height: 32px; }
+.auth-screen .topbar { display: none; }
+.auth-screen main { max-width: 1120px; padding: 56px 28px; }
+.auth-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; min-height: calc(100vh - 112px); }
+.auth-intro { padding: 24px 0; }
+.auth-brand { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-display); font-size: 21px; font-weight: 700; color: var(--text); text-decoration: none; margin-bottom: 62px; }
+.auth-intro h1 { font-size: clamp(36px, 5vw, 58px); line-height: 1.08; max-width: 9ch; margin: 16px 0 24px; }
+.auth-intro > p:not(.eyebrow) { font-size: 17px; color: var(--muted); max-width: 35ch; line-height: 1.7; }
+.auth-intro ul { padding-left: 20px; color: var(--muted); margin: 28px 0 0; line-height: 2; font-size: 14px; }
+.auth-card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 36px; }
+.auth-card h2 { font-size: 28px; margin: 10px 0; }
+.auth-card .integration-form { max-width: none; gap: 17px; margin-top: 28px; }
+.auth-card input { min-height: 46px; }
+.auth-card #account-message:empty { display: none; }
+.auth-card #account-message { color: var(--danger); font-size: 13px; }
+.auth-submit { width: 100%; min-height: 46px; }
+.auth-switch { margin-top: 24px; font-size: 14px; }
+.text-button { padding: 0; border: 0; background: transparent; font: inherit; color: var(--accent); font-weight: 600; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.auth-footnote { margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--muted); font-size: 11px; line-height: 1.6; }
+.auth-loading { min-height: 60vh; display: grid; place-items: center; color: var(--muted); }
+.auth-browse { margin-top: 12px; font-size: 13px; }
+.registration-names, .profile-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.profile-details-form { margin-top: 24px; }
+.profile-details-form .full-width { grid-column: 1 / -1; }
+.profile-details-form > p { margin: 18px 0; }
+@media (max-width: 540px) { .registration-names, .profile-fields { grid-template-columns: 1fr; } }
+.public-jobs .tabs { display: none; }
+@media (max-width: 1000px) { .account-nav { margin: 0 0 0 auto; } .account-email { max-width: 160px; } }
+@media (max-width: 760px) {
+  .auth-screen main { padding: 24px 18px; }
+  .auth-layout { grid-template-columns: 1fr; gap: 24px; min-height: auto; max-width: 480px; margin: 0 auto; }
+  .auth-intro { padding: 0; }
+  .auth-brand { margin-bottom: 22px; font-size: 18px; }
+  .auth-intro h1 { max-width: none; font-size: 34px; margin: 10px 0; }
+  .auth-intro ul, .auth-intro .eyebrow { display: none; }
+  .auth-intro > p:not(.eyebrow) { font-size: 14px; max-width: none; }
+  .auth-card { padding: 24px; }
+  .auth-card h2 { font-size: 24px; }
+  .account-nav { width: 100%; justify-content: space-between; }
+  .account-email { max-width: 240px; }
+}
