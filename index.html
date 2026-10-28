@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student Launchpad</title>
+  <meta name="description" content="Career Launch Dashboard and Student Budget Companion: track applications, interviews, events and spending, with a daily career task and daily spending allowance.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#overview"><span class="logo" aria-hidden="true">▲</span>Student Launchpad</a>
+    <nav class="tabs" aria-label="Sections">
+      <a href="#overview">Overview</a>
+      <a href="#budget">Budget</a>
+      <a href="#applications">Applications</a>
+      <a href="#interviews">Interviews</a>
+      <a href="#events">Events</a>
+      <a href="#opportunities">Opportunities</a>
+      <a href="#profile">Profile</a>
+    </nav>
+  </header>
+
+  <main id="app" tabindex="-1"></main>
+
+  <dialog id="form-dialog" aria-labelledby="form-title">
+    <form id="entry-form" novalidate>
+      <h2 id="form-title"></h2>
+      <div id="form-fields" class="fields"></div>
+      <div class="dialog-actions">
+        <button type="button" class="btn ghost" id="form-cancel">Cancel</button>
+        <button type="submit" class="btn primary" id="form-submit">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="confirm-dialog" aria-labelledby="confirm-title">
+    <form method="dialog">
+      <h2 id="confirm-title"></h2>
+      <p id="confirm-body" class="muted"></p>
+      <div class="dialog-actions">
+        <button value="cancel" class="btn ghost">Cancel</button>
+        <button value="ok" class="btn danger" id="confirm-ok">Delete</button>
+      </div>
+    </form>
+  </dialog>
+
+  <input type="file" id="import-file" accept="application/json,.json" hidden>
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
